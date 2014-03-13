@@ -4,7 +4,7 @@ import turtle
 def palMax (pallet):
     pmax = 0;
     for i in range(0, len(pallet)):
-        cur = pallet[i][0]
+        cur = pallet[i][1]
         if pmax < cur :
             pmax = cur
     return pmax
@@ -24,7 +24,7 @@ def localPalMax (pallet, i, a):
 
 
 
-def brotDepth (px, py):
+def escDepth (px, py):
     maxDepth = 5000;
     x = 0
     y = 0
@@ -43,20 +43,19 @@ def brotDepth (px, py):
 def depthRow (x, y):
     row = []
     for i in range(0, window_width()):
-        row.append(brotDepth(x, y))
+        row.append(escDepth(x, y))
         x = x + 1
     return row
         
 
     
 def rendBrot ():
-    a = -window_width() / 2
-    b = window_height() / 2
-    x = a
-    y = b
+    x_0 = -window_width() / 2
+    y_0 = window_height() / 2
+    x = x_0
+    y = y_0
     turtle.tracer(0)
-    print(b)
-    while y > -b:
+    while y > -y_0:
         row    = depthRow(x, y)
         pallet = [] 
         i = 0
@@ -69,15 +68,16 @@ def rendBrot ():
                 i = j
             else:
                 i = i + 1
-        
+                
         for i in range(0, len(pallet)):
             lmax = localPalMax(pallet, i, 2)
-            r = 0
+            amax = palMax(pallet)
+            b = (255) * (pallet[i][0]) / (lmax)
+            r = 255 - b
             g = 0
-            b = 0
-            if (255) * (pallet[i][0]) / lmax != 255:
-                b = (255) * (pallet[i][0]) / (lmax)
-                r = 255 - b
+            if (255) * pallet[i][0] / lmax < (255) * pallet[i][1] / amax:
+                r = 0
+                b = (255) * pallet[i][1] / amax
                 g = 0
                 
             turtle.color(r, g, b)
@@ -89,6 +89,7 @@ def rendBrot ():
         y = y - 1
         turtle.setpos(x, y)
         turtle.update()
+    print(y_0)
     print('done')   
 
            
