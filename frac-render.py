@@ -1,26 +1,8 @@
 from turtle import *
-import turtle 
+from math import *
+import turtle
 
-def palMax (pallet):
-    pmax = 0;
-    for i in range(0, len(pallet)):
-        cur = pallet[i][1]
-        if pmax < cur :
-            pmax = cur
-    return pmax
 
-def localPalMax (pallet, i, a):
-    lpmax = 0;
-    j = 0
-    while i + j < len(pallet) and i - j >= 0 and j < a:
-        ahead  = pallet[i + j][0]
-        behind = pallet[i - j][0]
-        if ahead > lpmax:
-            lpmax = ahead
-        if behind > lpmax:
-            lpmax = behind
-        j = j + 1
-    return lpmax
 
 
 
@@ -68,17 +50,17 @@ def rendBrot ():
                 i = j
             else:
                 i = i + 1
-                
+               
         for i in range(0, len(pallet)):
-            lmax = localPalMax(pallet, i, 2)
-            amax = palMax(pallet)
-            b = (255) * (pallet[i][0]) / (lmax)
-            r = 255 - b
-            g = 0
-            if (255) * pallet[i][0] / lmax < (255) * pallet[i][1] / amax:
-                r = 0
-                b = (255) * pallet[i][1] / amax
+            offset = int(255 * (1 - log(pallet[i][0] / 1000.0 * 255 + 1) / log(256)))
+            r = 255 - offset
+            if r > 255:
+                r = 230
+                g = 230
+                b = 230
+            else:
                 g = 0
+                b = 255 - offset
                 
             turtle.color(r, g, b)
             turtle.down()
