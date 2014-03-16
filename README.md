@@ -1,4 +1,4 @@
-python-fractals
+pyctals
 ===============
 
-rendering fractals using turtle and Tkinter
+Rendering fractals in python using turtle and Tkinter
